@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express, { Express, Request, Response } from 'express';
 import helmet from 'helmet';
 
 import logger from './utils/logger';
@@ -29,6 +29,9 @@ app.use(routeLogger);
 // ------------------------------------------------------------------------------–
 // Routes
 // ------------------------------------------------------------------------------–
+app.get('/status/health', (req: Request, res: Response) => {
+    return res.status(200).json({ message: 'UP' });
+});
 app.use('/', validateApiKey, routes);
 
 // ------------------------------------------------------------------------------–
