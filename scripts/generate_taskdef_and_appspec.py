@@ -26,6 +26,7 @@ ECR_IMAGE_REPO_NAME = os.environ['ECR_IMAGE_REPO_NAME']
 ECR_IMAGE_REPO_URL = os.environ['ECR_IMAGE_REPO_URL']
 ECR_IMAGE_TAG = os.environ['ECR_IMAGE_TAG']
 ECS_EXECUTION_ROLE_ARN = os.environ['ECS_EXECUTION_ROLE_ARN']
+ECS_TASK_ROLE_ARN = os.environ["ECS_TASK_ROLE_ARN"]
 ECS_FAMILY = os.environ['ECS_FAMILY']
 ECS_CPU = os.environ['ECS_CPU']
 ECS_MEMORY = os.environ['ECS_MEMORY']
@@ -73,6 +74,7 @@ def generate_taskdef(container_definitions):
     taskdef_tpl = env.get_template('taskdef.json.tpl')
     return taskdef_tpl.render(
         ecs_execution_role_arn=ECS_EXECUTION_ROLE_ARN,
+        ecs_task_role_arn=ECS_TASK_ROLE_ARN,
         ecs_family=ECS_FAMILY,
         ecs_container_definitions=json.loads(container_definitions),
         ecs_memory=ECS_MEMORY,
