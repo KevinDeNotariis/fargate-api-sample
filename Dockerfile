@@ -13,7 +13,6 @@ RUN npm run build
 FROM node:slim
 
 ENV NODE_ENV production
-USER node
 
 WORKDIR /opt/app
 
@@ -21,6 +20,7 @@ COPY package*.json ./
 
 RUN npm ci --production
 
+USER node
 COPY --chown=node:node --from=builder /opt/app/dist ./dist
 
 ENV PORT 80
