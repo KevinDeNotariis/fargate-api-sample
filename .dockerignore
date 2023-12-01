@@ -1,0 +1,8 @@
+dist
+.env
+node_modules
+Dockerfile
+.dockerignore
+scripts
+buildspec.yml
+appspec.yml
