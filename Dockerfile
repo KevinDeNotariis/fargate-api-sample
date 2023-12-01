@@ -20,8 +20,7 @@ COPY package*.json ./
 
 RUN npm ci --production
 
-USER node
-COPY --chown=node:node --from=builder /opt/app/dist ./dist
+COPY --from=builder /opt/app/dist ./dist
 
 ENV PORT 80
 ENV API_KEY ${API_KEY}
