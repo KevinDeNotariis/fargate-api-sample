@@ -5,7 +5,6 @@ import logger from './utils/logger';
 import routes from './routes';
 import { handleError, errorLogging } from './utils/errorHandlers/middlewares';
 import { routeLogger } from './utils/routeLogger';
-import { validateApiKey } from './controllers/authentication';
 import config from './config';
 
 const app: Express = express();
@@ -32,7 +31,7 @@ app.use(routeLogger);
 app.get('/status/health', (req: Request, res: Response) => {
     return res.status(200).json({ message: 'UP' });
 });
-app.use('/', validateApiKey, routes);
+app.use('/', routes);
 
 // ------------------------------------------------------------------------------–
 // Error handling Routes

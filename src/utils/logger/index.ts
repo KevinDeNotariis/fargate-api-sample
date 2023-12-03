@@ -1,16 +1,19 @@
-import { createLogger, transports, format } from "winston";
+import { createLogger, transports, format } from 'winston';
 // -----------------------------------------------------
 // Create Logger
 // -----------------------------------------------------
 const logger = createLogger({
-  transports: [new transports.Console()],
-  format: format.combine(
-    format.colorize(),
-    format.timestamp(),
-    format.printf(({ timestamp, level, message }) => {
-      return `[${timestamp}] ${level}: ${message}`;
-    })
-  ),
+    transports: [new transports.Console()],
+    format: format.combine(
+        format.timestamp(),
+        format.printf(({ timestamp, level, message }) => {
+            return `[${timestamp}] ${level}: ${message}`;
+        })
+    ),
 });
+
+if (process.env.NODE_ENV !== 'production') {
+    logger.format = format.combine(format.colorize(), logger.format);
+}
 
 export default logger;

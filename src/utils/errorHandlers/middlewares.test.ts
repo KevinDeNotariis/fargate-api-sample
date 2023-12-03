@@ -8,14 +8,14 @@ chai.should();
 
 describe('Error Middleware', () => {
     describe('Upon receiveing a wrongly formatted json as payload', () => {
-        const res_prom = chai
+        const resProm = chai
             .request(app)
-            .post('/user')
+            .post('/string/replace')
             .set('Content-Type', 'application/json')
-            .send('{"email": "hello@world.com", "password: "whatever"');
+            .send('{"content": "abn is a great bank"');
 
         it('Should correctly return a 400 saying that something went wrong', (done) => {
-            res_prom.end((err, res) => {
+            resProm.end((err, res) => {
                 res.should.have.status(400);
                 res.body.should.have.property('message');
                 res.body.message.toLowerCase().should.match(/something went wrong/);
@@ -25,10 +25,10 @@ describe('Error Middleware', () => {
     });
 
     describe("Upon requesting a route that doesn't exists", () => {
-        const res_prom = chai.request(app).post('/non-existent-route').send();
+        const resProm = chai.request(app).post('/non-existent-route').send();
 
         it('Should return a 404 with a "not found" message', (done) => {
-            res_prom.end((err, res) => {
+            resProm.end((err, res) => {
                 res.should.have.status(404);
                 res.body.should.have.property('message');
                 res.body.message.toLowerCase().should.match(/not found/);

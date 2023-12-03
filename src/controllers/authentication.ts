@@ -9,7 +9,7 @@ export const validateApiKey = async (req: Request, res: Response, next: NextFunc
             return next();
         }
 
-        return res.status(401).json({ message: 'Unauthorized' });
+        return res.status(401).json({ message: 'Forbidden' });
     } catch (err) {
         next(err);
     }

@@ -6,18 +6,16 @@ import logger from '../utils/logger';
 const ssm = new SSM({ region: config.awsRegion });
 
 const caseInsensitiveReplace = (text: string, pattern: string, replacement: string): string => {
-    const regexPattern = new RegExp(pattern, 'gi'); // 'gi' flag for global and case-insensitive matching
+    const regexPattern = new RegExp(`\\b${pattern}\\b`, 'gi'); // 'gi' flag for global and case-insensitive matching
 
     const replacedText = text.replace(regexPattern, replacement);
-
-    console.log(replacedText);
 
     return replacedText;
 };
 
 export const stringReplace = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        logger.info(req.body);
+        logger.debug(req.body);
 
         const stringsMappingstring = (
             await ssm.getParameter({
@@ -30,11 +28,7 @@ export const stringReplace = async (req: Request, res: Response, next: NextFunct
         }
 
         const stringsMapping: Map<string, string> = JSON.parse(stringsMappingstring);
-
-        logger.info(stringsMapping);
-        console.log(req.body);
         const content = req.body.content;
-        logger.info(content);
 
         let polished = content;
         for (const [key, value] of Object.entries(stringsMapping)) {
