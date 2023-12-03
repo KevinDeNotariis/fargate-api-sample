@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 import { SSM } from '@aws-sdk/client-ssm';
 import config from '../config';
 import logger from '../utils/logger';
@@ -15,7 +16,11 @@ const caseInsensitiveReplace = (text: string, pattern: string, replacement: stri
 
 export const stringReplace = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        logger.debug(req.body);
+        const result = validationResult(req);
+
+        if (!result.isEmpty()) {
+            return res.status(400).json({ message: 'Malformed Input' });
+        }
 
         const stringsMappingstring = (
             await ssm.getParameter({

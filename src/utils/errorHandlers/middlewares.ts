@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-
 import { CustomError } from './CustomError';
 import logger from '../logger';
 
@@ -22,12 +21,6 @@ export const handleError = (
             customError = new CustomError('Something went wrong in decoding Payload', 400);
         } else {
             customError = new CustomError('There has been a problem. Check logs for more details');
-        }
-    } else {
-        switch (err.message) {
-            case 'Not Found':
-                err.message = `Route ${req.method} ${req.path} Not Found`;
-                break;
         }
     }
 
