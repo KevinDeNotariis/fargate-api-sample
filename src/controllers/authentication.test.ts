@@ -16,7 +16,7 @@ describe('Authentication Middleware', () => {
 
         it('Should correctly return a 401 Forbidden', (done) => {
             resProm.end((err, res) => {
-                res.should.have.status(401);
+                res.should.have.status(403);
                 res.body.should.have.property('message');
                 res.body.message.toLowerCase().should.match(/forbidden/);
                 done();

@@ -3,8 +3,18 @@ import { CustomError } from './CustomError';
 import logger from '../logger';
 
 export const errorLogging = (err: Error, req: Request, res: Response, next: NextFunction) => {
+    if (err instanceof CustomError) {
+        logger.error(
+            `error=${JSON.stringify({
+                message: err.message,
+                name: 'CustomError',
+                additionalInfo: err.additionalInfo,
+            })}`
+        );
+    }
+
     logger.error(
-        `An Error Occurred: error=${JSON.stringify({ message: err.message, name: err.name })}`
+        `error=${JSON.stringify({ message: err.message, name: err.name, additionalInfo: {} })}`
     );
     next(err);
 };
@@ -20,9 +30,9 @@ export const handleError = (
         if (err instanceof SyntaxError) {
             customError = new CustomError('Something went wrong in decoding Payload', 400);
         } else {
-            customError = new CustomError('There has been a problem. Check logs for more details');
+            customError = new CustomError('Internal Server Error');
         }
     }
 
-    return res.status((customError as CustomError).status).send(customError);
+    return res.status((customError as CustomError).status).send({ message: customError.message });
 };
