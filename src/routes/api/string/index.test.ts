@@ -33,6 +33,22 @@ describe('api/string', () => {
             });
         });
 
+        it('Should return a 400 Malformed input if the value of the "content" key is not a string', (done) => {
+            const chaiProm = chai
+                .request(app)
+                .post('/api/string/replace')
+                .set('Content-Type', 'application/json')
+                .set('x-api-key', 'helloworld')
+                .send(`{"content": {"yo": "yo"}}`);
+
+            chaiProm.end((err, res) => {
+                res.should.have.status(400);
+                res.body.should.have.property('message');
+                res.body.message.should.equal('Malformed Input');
+                done();
+            });
+        });
+
         it('Should return an empty string if an empty string is provided', (done) => {
             sendRequest('').end((err, res) => {
                 res.should.have.status(200);

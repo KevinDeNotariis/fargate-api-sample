@@ -4,6 +4,6 @@ import { stringReplace } from '../../../controllers/stringManipulations';
 
 const router = Router();
 
-router.post('/replace', body('content').exists().trim().isString(), stringReplace);
+router.post('/replace', body('content').exists().isString(), stringReplace);
 
 export default router;
