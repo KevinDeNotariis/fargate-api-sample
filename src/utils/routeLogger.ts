@@ -9,9 +9,9 @@ export const routeLogger = (req: Request, res: Response, next: NextFunction) => 
     }
 
     logger.info(
-        `${req.method} ${req.path} params=${JSON.stringify(req.params)} body=${JSON.stringify(
-            req.body
-        )}`
+        `${req.method} ${req.path} ${
+            req.headers['x-forwarded-for'] || req.socket.remoteAddress
+        } params=${JSON.stringify(req.params)} body=${JSON.stringify(req.body)}`
     );
     return next();
 };
